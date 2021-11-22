@@ -123,6 +123,38 @@ Message filters can be set up in the **Device messages** tab of the console.
 
 </Message>
 
+### Message filters template
+
+<Message type="important">
+
+The Message filters template feature is currently in **beta** status.
+
+</Message>
+
+The Message filters accept templating with some metadata associated with the Hub and Device to be used in the filter. This allows to use the same filter on multiple devices and have them filter topics with regards to their own name or IDs.
+
+The following elements are available:
+* `hub.name`: The Hub's name
+* `hub.id`: The Hub's ID
+* `device.name`: The Device's name
+* `device.id`: The Device's ID
+
+To use them in your message filters use double curly brackets around the element you want to use.
+For example:
+```
+    /{{ hub.name }}/{{ device.name }}/#
+```
+Will build the following filter when the Hub is named `MyHub` and the Device `MyDevice`:
+```
+    /MyHub/MyDevice/#
+```
+
+<Message type="important">
+
+Issues when parsing the template will be reported through [Hub events](https://www.scaleway.com/en/docs/scaleway-iothub-events/) as warnings, in that case the filter may be dropped from the list.
+
+</Message>
+
 ## Multiple connections
 
 By default, your Devices can issue only one connection to the Hub at a time. When a second connection is issued, the first one is disconnected. You can change this by allowing multiple connections for a Device.
